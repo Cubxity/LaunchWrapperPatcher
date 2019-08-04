@@ -13,8 +13,6 @@ import me.cubxity.libs.org.objectweb.asm.Opcodes;
 import me.cubxity.libs.org.objectweb.asm.TypePath;
 import me.cubxity.libs.org.objectweb.asm.commons.Remapper;
 
-import me.lpk.log.Logger;
-
 import me.cubxity.libs.org.objectweb.asm.commons.ClassRemapper;
 
 /**
@@ -106,10 +104,6 @@ public class ClassOptimizer extends ClassRemapper {
             return null;
         }
         if ((access & (Opcodes.ACC_PUBLIC | Opcodes.ACC_PROTECTED)) == 0) {
-            if ((access & Opcodes.ACC_FINAL) != 0
-                    && (access & Opcodes.ACC_STATIC) != 0 && desc.length() == 1) {
-            	Logger.logVeryHigh("ClassOptimizer: Would have deleted field!");
-            }
             super.visitField(access, name, desc, null, value);
         } else {
             if (!s.equals(name)) {

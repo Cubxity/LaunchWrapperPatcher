@@ -24,8 +24,6 @@ import me.cubxity.libs.org.objectweb.asm.FieldVisitor;
 import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
 import me.cubxity.libs.org.objectweb.asm.Opcodes;
 
-import me.lpk.log.Logger;
-
 /**
  * A Jar file optimizer.
  * 
@@ -127,17 +125,11 @@ public class JarOptimizer {
                 final String name, final String signature,
                 final String superName, final String[] interfaces) {
             owner = name;
-            if (owner.startsWith("java/")) {
-                System.out.println("class " + name + ' ' + superName);
-            }
         }
 
         @Override
         public FieldVisitor visitField(final int access, final String name,
                 final String desc, final String signature, final Object value) {
-            if (owner.startsWith("java/")) {
-                System.out.println(owner + ' ' + name);
-            }
             return null;
         }
 
@@ -145,9 +137,6 @@ public class JarOptimizer {
         public MethodVisitor visitMethod(final int access, final String name,
                 final String desc, final String signature,
                 final String[] exceptions) {
-            if (owner.startsWith("java/")) {
-                System.out.println(owner + ' ' + name + desc);
-            }
             return null;
         }
     }
@@ -199,9 +188,6 @@ public class JarOptimizer {
                     }
                     o = HIERARCHY.get(o);
                 }
-                Logger.logVeryHigh("WARNING: " + owner + ' ' + member
-                        + " called in " + this.owner + ' ' + method
-                        + " is not defined in JDK 1.3 API");
             }
         }
     }

@@ -1,0 +1,6 @@
+task:
+  container:
+    image: maven:3-jdk-8
+  maven_cache:
+    folder: ~/.m2
+  script: mvn compile -B

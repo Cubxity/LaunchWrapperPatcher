@@ -30,14 +30,14 @@
 
 package me.cubxity.libs.org.objectweb.asm.commons;
 
-import me.cubxity.libs.org.objectweb.asm.signature.SignatureVisitor;
 import me.cubxity.libs.org.objectweb.asm.Opcodes;
+import me.cubxity.libs.org.objectweb.asm.signature.SignatureVisitor;
 
 /**
  * A {@link SignatureVisitor} adapter for type mapping.
- * 
- * @deprecated use {@link SignatureRemapper} instead.
+ *
  * @author Eugene Kuleshov
+ * @deprecated use {@link SignatureRemapper} instead.
  */
 @Deprecated
 public class RemappingSignatureAdapter extends SignatureVisitor {
@@ -49,12 +49,12 @@ public class RemappingSignatureAdapter extends SignatureVisitor {
     private String className;
 
     public RemappingSignatureAdapter(final SignatureVisitor v,
-            final Remapper remapper) {
+                                     final Remapper remapper) {
         this(Opcodes.ASM5, v, remapper);
     }
 
     protected RemappingSignatureAdapter(final int api,
-            final SignatureVisitor v, final Remapper remapper) {
+                                        final SignatureVisitor v, final Remapper remapper) {
         super(api);
         this.v = v;
         this.remapper = remapper;

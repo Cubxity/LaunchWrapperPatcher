@@ -1,31 +1,23 @@
 package me.cubxity.libs.org.objectweb.asm.optimizer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.cubxity.libs.org.objectweb.asm.AnnotationVisitor;
-import me.cubxity.libs.org.objectweb.asm.Attribute;
-import me.cubxity.libs.org.objectweb.asm.ClassVisitor;
-import me.cubxity.libs.org.objectweb.asm.FieldVisitor;
-import me.cubxity.libs.org.objectweb.asm.Label;
-import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
-import me.cubxity.libs.org.objectweb.asm.Opcodes;
-import me.cubxity.libs.org.objectweb.asm.TypePath;
+import me.cubxity.libs.org.objectweb.asm.*;
+import me.cubxity.libs.org.objectweb.asm.commons.ClassRemapper;
 import me.cubxity.libs.org.objectweb.asm.commons.Remapper;
 
-import me.cubxity.libs.org.objectweb.asm.commons.ClassRemapper;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A {@link ClassVisitor} that renames fields and methods, and removes debug
  * info.
- * 
+ *
  * @author Eric Bruneton
  * @author Eugene Kuleshov
  */
 public class ClassOptimizer extends ClassRemapper {
 
     @SuppressWarnings("unused")
-	private String pkgName;
+    private String pkgName;
     String clsName;
 
     boolean isInterface = false;
@@ -37,7 +29,7 @@ public class ClassOptimizer extends ClassRemapper {
     }
 
     FieldVisitor syntheticFieldVisitor(final int access, final String name,
-            final String desc) {
+                                       final String desc) {
         return super.visitField(access, name, desc, null, null);
     }
 
@@ -47,8 +39,8 @@ public class ClassOptimizer extends ClassRemapper {
 
     @Override
     public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
+                      final String signature, final String superName,
+                      final String[] interfaces) {
         super.visit(Opcodes.V1_8, access, name, null, superName, interfaces);
         int index = name.lastIndexOf('/');
         if (index > 0) {
@@ -67,20 +59,20 @@ public class ClassOptimizer extends ClassRemapper {
 
     @Override
     public void visitOuterClass(final String owner, final String name,
-            final String desc) {
+                                final String desc) {
         // remove debug info
     }
 
     @Override
     public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+                                             final boolean visible) {
         // remove annotations
         return null;
     }
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         // remove annotations
         return null;
     }
@@ -92,13 +84,13 @@ public class ClassOptimizer extends ClassRemapper {
 
     @Override
     public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
+                                final String innerName, final int access) {
         // remove debug info
     }
 
     @Override
     public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
+                                   final String desc, final String signature, final Object value) {
         String s = remapper.mapFieldName(className, name, desc);
         if ("-".equals(s)) {
             return null;
@@ -117,18 +109,18 @@ public class ClassOptimizer extends ClassRemapper {
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
+                                     final String desc, final String signature, final String[] exceptions) {
         String s = remapper.mapMethodName(className, name, desc);
-       
+
         if ("-".equals(s)) {
             return null;
         }
         if (name.equals("<clinit>") && !isInterface) {
             hasClinitMethod = true;
-            MethodVisitor mv = 
-            		
-            		super.visitMethod(access, name, desc, null,
-                    exceptions);
+            MethodVisitor mv =
+
+                    super.visitMethod(access, name, desc, null,
+                            exceptions);
             return new MethodVisitor(Opcodes.ASM5, mv) {
                 @Override
                 public void visitCode() {
@@ -169,7 +161,7 @@ public class ClassOptimizer extends ClassRemapper {
             }
         } else {
             MethodVisitor mv = cv.visitMethod(Opcodes.ACC_STATIC
-                    | Opcodes.ACC_SYNTHETIC, "class$",
+                            | Opcodes.ACC_SYNTHETIC, "class$",
                     "(Ljava/lang/String;)Ljava/lang/Class;", null, null);
             mv.visitCode();
             Label l0 = new Label();

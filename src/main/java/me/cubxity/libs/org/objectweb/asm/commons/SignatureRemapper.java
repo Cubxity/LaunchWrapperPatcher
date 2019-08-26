@@ -30,14 +30,14 @@
 
 package me.cubxity.libs.org.objectweb.asm.commons;
 
-import java.util.Stack;
-
-import me.cubxity.libs.org.objectweb.asm.signature.SignatureVisitor;
 import me.cubxity.libs.org.objectweb.asm.Opcodes;
+import me.cubxity.libs.org.objectweb.asm.signature.SignatureVisitor;
+
+import java.util.Stack;
 
 /**
  * A {@link SignatureVisitor} adapter for type mapping.
- * 
+ *
  * @author Eugene Kuleshov
  */
 public class SignatureRemapper extends SignatureVisitor {
@@ -53,7 +53,7 @@ public class SignatureRemapper extends SignatureVisitor {
     }
 
     protected SignatureRemapper(final int api, final SignatureVisitor v,
-            final Remapper remapper) {
+                                final Remapper remapper) {
         super(api);
         this.v = v;
         this.remapper = remapper;

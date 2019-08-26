@@ -1,5 +1,7 @@
 package me.cubxity.libs.org.objectweb.asm.optimizer;
 
+import me.cubxity.libs.org.objectweb.asm.Type;
+
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,11 +10,9 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import me.cubxity.libs.org.objectweb.asm.Type;
-
 /**
  * A MAPPING from names to names, used to rename classes, fields and methods.
- * 
+ *
  * @author Eric Bruneton
  */
 public class NameMapping {

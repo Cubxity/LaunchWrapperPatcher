@@ -1,9 +1,9 @@
 package me.cubxity.asm;
 
-import me.cubxity.libs.org.objectweb.asm.tree.*;
-import me.lpk.util.JarUtils;
 import me.cubxity.libs.org.objectweb.asm.ClassWriter;
 import me.cubxity.libs.org.objectweb.asm.Opcodes;
+import me.cubxity.libs.org.objectweb.asm.tree.*;
+import me.lpk.util.JarUtils;
 
 import java.io.File;
 import java.io.IOException;

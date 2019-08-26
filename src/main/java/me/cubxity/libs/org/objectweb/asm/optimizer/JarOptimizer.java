@@ -1,32 +1,17 @@
 package me.cubxity.libs.org.objectweb.asm.optimizer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import me.cubxity.libs.org.objectweb.asm.*;
+
+import java.io.*;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import me.cubxity.libs.org.objectweb.asm.ClassReader;
-import me.cubxity.libs.org.objectweb.asm.ClassVisitor;
-import me.cubxity.libs.org.objectweb.asm.FieldVisitor;
-import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
-import me.cubxity.libs.org.objectweb.asm.Opcodes;
-
 /**
  * A Jar file optimizer.
- * 
+ *
  * @author Eric Bruneton
  */
 public class JarOptimizer {
@@ -122,21 +107,21 @@ public class JarOptimizer {
 
         @Override
         public void visit(final int version, final int access,
-                final String name, final String signature,
-                final String superName, final String[] interfaces) {
+                          final String name, final String signature,
+                          final String superName, final String[] interfaces) {
             owner = name;
         }
 
         @Override
         public FieldVisitor visitField(final int access, final String name,
-                final String desc, final String signature, final Object value) {
+                                       final String desc, final String signature, final Object value) {
             return null;
         }
 
         @Override
         public MethodVisitor visitMethod(final int access, final String name,
-                final String desc, final String signature,
-                final String[] exceptions) {
+                                         final String desc, final String signature,
+                                         final String[] exceptions) {
             return null;
         }
     }
@@ -153,27 +138,27 @@ public class JarOptimizer {
 
         @Override
         public void visit(final int version, final int access,
-                final String name, final String signature,
-                final String superName, final String[] interfaces) {
+                          final String name, final String signature,
+                          final String superName, final String[] interfaces) {
             owner = name;
         }
 
         @Override
         public MethodVisitor visitMethod(final int access, final String name,
-                final String desc, final String signature,
-                final String[] exceptions) {
+                                         final String desc, final String signature,
+                                         final String[] exceptions) {
             method = name + desc;
             return new MethodVisitor(Opcodes.ASM5) {
                 @Override
                 public void visitFieldInsn(final int opcode,
-                        final String owner, final String name, final String desc) {
+                                           final String owner, final String name, final String desc) {
                     check(owner, name);
                 }
 
                 @Override
                 public void visitMethodInsn(final int opcode,
-                        final String owner, final String name,
-                        final String desc, final boolean itf) {
+                                            final String owner, final String name,
+                                            final String desc, final boolean itf) {
                     check(owner, name + desc);
                 }
             };

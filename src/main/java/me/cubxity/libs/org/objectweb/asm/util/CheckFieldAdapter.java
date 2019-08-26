@@ -29,12 +29,7 @@
  */
 package me.cubxity.libs.org.objectweb.asm.util;
 
-import me.cubxity.libs.org.objectweb.asm.AnnotationVisitor;
-import me.cubxity.libs.org.objectweb.asm.Attribute;
-import me.cubxity.libs.org.objectweb.asm.FieldVisitor;
-import me.cubxity.libs.org.objectweb.asm.Opcodes;
-import me.cubxity.libs.org.objectweb.asm.TypePath;
-import me.cubxity.libs.org.objectweb.asm.TypeReference;
+import me.cubxity.libs.org.objectweb.asm.*;
 
 /**
  * A {@link FieldVisitor} that checks that its methods are properly used.
@@ -47,11 +42,9 @@ public class CheckFieldAdapter extends FieldVisitor {
      * Constructs a new {@link CheckFieldAdapter}. <i>Subclasses must not use
      * this constructor</i>. Instead, they must use the
      * {@link #CheckFieldAdapter(int, FieldVisitor)} version.
-     * 
-     * @param fv
-     *            the field visitor to which this adapter must delegate calls.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     *
+     * @param fv the field visitor to which this adapter must delegate calls.
+     * @throws IllegalStateException If a subclass calls this constructor.
      */
     public CheckFieldAdapter(final FieldVisitor fv) {
         this(Opcodes.ASM5, fv);
@@ -62,12 +55,10 @@ public class CheckFieldAdapter extends FieldVisitor {
 
     /**
      * Constructs a new {@link CheckFieldAdapter}.
-     * 
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
+     *
+     * @param api the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param fv
-     *            the field visitor to which this adapter must delegate calls.
+     * @param fv  the field visitor to which this adapter must delegate calls.
      */
     protected CheckFieldAdapter(final int api, final FieldVisitor fv) {
         super(api, fv);
@@ -75,7 +66,7 @@ public class CheckFieldAdapter extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+                                             final boolean visible) {
         checkEnd();
         CheckMethodAdapter.checkDesc(desc, false);
         return new CheckAnnotationAdapter(super.visitAnnotation(desc, visible));
@@ -83,7 +74,7 @@ public class CheckFieldAdapter extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
+                                                 final TypePath typePath, final String desc, final boolean visible) {
         checkEnd();
         int sort = typeRef >>> 24;
         if (sort != TypeReference.FIELD) {

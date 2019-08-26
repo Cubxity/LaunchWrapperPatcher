@@ -34,7 +34,7 @@ import me.cubxity.libs.org.objectweb.asm.Opcodes;
 
 /**
  * A node that represents a parameter access and name.
- * 
+ *
  * @author Remi Forax
  */
 public class ParameterNode {
@@ -52,13 +52,11 @@ public class ParameterNode {
 
     /**
      * Constructs a new {@link ParameterNode}.
-     * 
-     * @param access
-     *            The parameter's access flags. Valid values are
-     *            <tt>ACC_FINAL</tt>, <tt>ACC_SYNTHETIC</tt> or/and
-     *            <tt>ACC_MANDATED</tt> (see {@link Opcodes}).
-     * @param name
-     *            the parameter's name.
+     *
+     * @param access The parameter's access flags. Valid values are
+     *               <tt>ACC_FINAL</tt>, <tt>ACC_SYNTHETIC</tt> or/and
+     *               <tt>ACC_MANDATED</tt> (see {@link Opcodes}).
+     * @param name   the parameter's name.
      */
     public ParameterNode(final String name, final int access) {
         this.name = name;
@@ -67,9 +65,8 @@ public class ParameterNode {
 
     /**
      * Makes the given visitor visit this parameter declaration.
-     * 
-     * @param mv
-     *            a method visitor.
+     *
+     * @param mv a method visitor.
      */
     public void accept(final MethodVisitor mv) {
         mv.visitParameter(name, access);

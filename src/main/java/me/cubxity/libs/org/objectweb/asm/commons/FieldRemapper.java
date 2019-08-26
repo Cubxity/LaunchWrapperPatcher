@@ -35,13 +35,7 @@ import me.cubxity.libs.org.objectweb.asm.FieldVisitor;
 import me.cubxity.libs.org.objectweb.asm.Opcodes;
 import me.cubxity.libs.org.objectweb.asm.TypePath;
 
-/**
- * A {@link FieldVisitor} adapter for type remapping.
- * 
- * @author Eugene Kuleshov
- */
 public class FieldRemapper extends FieldVisitor {
-
     private final Remapper remapper;
 
     public FieldRemapper(final FieldVisitor fv, final Remapper remapper) {
@@ -49,7 +43,7 @@ public class FieldRemapper extends FieldVisitor {
     }
 
     protected FieldRemapper(final int api, final FieldVisitor fv,
-            final Remapper remapper) {
+                            final Remapper remapper) {
         super(api, fv);
         this.remapper = remapper;
     }
@@ -63,7 +57,7 @@ public class FieldRemapper extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         AnnotationVisitor av = super.visitTypeAnnotation(typeRef, typePath,
                 remapper.mapDesc(desc), visible);
         return av == null ? null : new AnnotationRemapper(av, remapper);

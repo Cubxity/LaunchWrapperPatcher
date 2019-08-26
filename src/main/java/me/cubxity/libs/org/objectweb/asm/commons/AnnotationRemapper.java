@@ -33,22 +33,16 @@ package me.cubxity.libs.org.objectweb.asm.commons;
 import me.cubxity.libs.org.objectweb.asm.AnnotationVisitor;
 import me.cubxity.libs.org.objectweb.asm.Opcodes;
 
-/**
- * An {@link AnnotationVisitor} adapter for type remapping.
- * 
- * @author Eugene Kuleshov
- */
 public class AnnotationRemapper extends AnnotationVisitor {
-
     protected final Remapper remapper;
 
     public AnnotationRemapper(final AnnotationVisitor av,
-            final Remapper remapper) {
+                              final Remapper remapper) {
         this(Opcodes.ASM5, av, remapper);
     }
 
     protected AnnotationRemapper(final int api, final AnnotationVisitor av,
-            final Remapper remapper) {
+                                 final Remapper remapper) {
         super(api, av);
         this.remapper = remapper;
     }

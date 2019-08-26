@@ -29,18 +29,18 @@
  */
 package me.cubxity.libs.org.objectweb.asm.tree;
 
+import me.cubxity.libs.org.objectweb.asm.Label;
+import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
+import me.cubxity.libs.org.objectweb.asm.Opcodes;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import me.cubxity.libs.org.objectweb.asm.Label;
-import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
-import me.cubxity.libs.org.objectweb.asm.Opcodes;
-
 /**
  * A node that represents a TABLESWITCH instruction.
- * 
+ *
  * @author Eric Bruneton
  */
 public class TableSwitchInsnNode extends AbstractInsnNode {
@@ -68,19 +68,15 @@ public class TableSwitchInsnNode extends AbstractInsnNode {
 
     /**
      * Constructs a new {@link TableSwitchInsnNode}.
-     * 
-     * @param min
-     *            the minimum key value.
-     * @param max
-     *            the maximum key value.
-     * @param dflt
-     *            beginning of the default handler block.
-     * @param labels
-     *            beginnings of the handler blocks. <tt>labels[i]</tt> is the
-     *            beginning of the handler block for the <tt>min + i</tt> key.
+     *
+     * @param min    the minimum key value.
+     * @param max    the maximum key value.
+     * @param dflt   beginning of the default handler block.
+     * @param labels beginnings of the handler blocks. <tt>labels[i]</tt> is the
+     *               beginning of the handler block for the <tt>min + i</tt> key.
      */
     public TableSwitchInsnNode(final int min, final int max,
-            final LabelNode dflt, final LabelNode... labels) {
+                               final LabelNode dflt, final LabelNode... labels) {
         super(Opcodes.TABLESWITCH);
         this.min = min;
         this.max = max;

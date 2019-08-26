@@ -1,33 +1,22 @@
 package me.cubxity.libs.org.objectweb.asm.optimizer;
 
-import java.util.HashMap;
-
-import me.cubxity.libs.org.objectweb.asm.AnnotationVisitor;
-import me.cubxity.libs.org.objectweb.asm.Attribute;
-import me.cubxity.libs.org.objectweb.asm.FieldVisitor;
-import me.cubxity.libs.org.objectweb.asm.Label;
-import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
-import me.cubxity.libs.org.objectweb.asm.Opcodes;
-import me.cubxity.libs.org.objectweb.asm.Type;
-import me.cubxity.libs.org.objectweb.asm.TypePath;
-import me.cubxity.libs.org.objectweb.asm.commons.Remapper;
+import me.cubxity.libs.org.objectweb.asm.*;
 import me.cubxity.libs.org.objectweb.asm.commons.MethodRemapper;
+import me.cubxity.libs.org.objectweb.asm.commons.Remapper;
+
+import java.util.HashMap;
 
 /**
  * A {@link MethodVisitor} that renames fields and methods, and removes debug
  * info.
- * 
+ *
  * @author Eugene Kuleshov
  */
 public class MethodOptimizer extends MethodRemapper implements Opcodes {
 
     private final ClassOptimizer classOptimizer;
 
-    public MethodOptimizer(ClassOptimizer classOptimizer, MethodVisitor mv,
-            Remapper remapper) {
-        super(Opcodes.ASM5, mv, remapper);
-        this.classOptimizer = classOptimizer;
-    }
+    private static final HashMap<String, String[]> BOXING_MAP;
 
     // ------------------------------------------------------------------------
     // Overridden methods
@@ -50,35 +39,47 @@ public class MethodOptimizer extends MethodRemapper implements Opcodes {
         return null;
     }
 
+    static {
+        String[][] boxingNames = {
+                // Boolean.valueOf is 1.4 and is used by the xml package, so no
+                // rewrite
+                {"java/lang/Byte", "(B)V"}, {"java/lang/Short", "(S)V"},
+                {"java/lang/Character", "(C)V"},
+                {"java/lang/Integer", "(I)V"}, {"java/lang/Long", "(J)V"},
+                {"java/lang/Float", "(F)V"}, {"java/lang/Double", "(D)V"},};
+        HashMap<String, String[]> map = new HashMap<String, String[]>();
+        for (String[] boxingName : boxingNames) {
+            String wrapper = boxingName[0];
+            String desc = boxingName[1];
+            String boxingMethod = wrapper + '(' + desc.charAt(1) + ")L"
+                    + wrapper + ';';
+            map.put(boxingMethod, boxingName);
+        }
+        BOXING_MAP = map;
+    }
+
+    public MethodOptimizer(ClassOptimizer classOptimizer, MethodVisitor mv,
+                           Remapper remapper) {
+        super(Opcodes.ASM5, mv, remapper);
+        this.classOptimizer = classOptimizer;
+    }
+
     @Override
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         return null;
     }
 
     @Override
     public AnnotationVisitor visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible) {
+                                                      final String desc, final boolean visible) {
         // remove annotations
         return null;
     }
 
     @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        // remove debug info
-    }
-
-    @Override
     public void visitLineNumber(final int line, final Label start) {
         // remove debug info
-    }
-
-    @Override
-    public void visitFrame(int type, int local, Object[] local2, int stack,
-            Object[] stack2) {
-        // remove frame info
     }
 
     @Override
@@ -108,8 +109,21 @@ public class MethodOptimizer extends MethodRemapper implements Opcodes {
     }
 
     @Override
+    public void visitLocalVariable(final String name, final String desc,
+                                   final String signature, final Label start, final Label end,
+                                   final int index) {
+        // remove debug info
+    }
+
+    @Override
+    public void visitFrame(int type, int local, Object[] local2, int stack,
+                           Object[] stack2) {
+        // remove frame info
+    }
+
+    @Override
     public void visitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
+                                String desc, boolean itf) {
         // rewrite boxing method call to use constructor to keep 1.3/1.4
         // compatibility
         String[] constructorParams;
@@ -127,25 +141,5 @@ public class MethodOptimizer extends MethodRemapper implements Opcodes {
             return;
         }
         super.visitMethodInsn(opcode, owner, name, desc, itf);
-    }
-
-    private static final HashMap<String, String[]> BOXING_MAP;
-    static {
-        String[][] boxingNames = {
-                // Boolean.valueOf is 1.4 and is used by the xml package, so no
-                // rewrite
-                { "java/lang/Byte", "(B)V" }, { "java/lang/Short", "(S)V" },
-                { "java/lang/Character", "(C)V" },
-                { "java/lang/Integer", "(I)V" }, { "java/lang/Long", "(J)V" },
-                { "java/lang/Float", "(F)V" }, { "java/lang/Double", "(D)V" }, };
-        HashMap<String, String[]> map = new HashMap<String, String[]>();
-        for (String[] boxingName : boxingNames) {
-            String wrapper = boxingName[0];
-            String desc = boxingName[1];
-            String boxingMethod = wrapper + '(' + desc.charAt(1) + ")L"
-                    + wrapper + ';';
-            map.put(boxingMethod, boxingName);
-        }
-        BOXING_MAP = map;
     }
 }

@@ -29,15 +29,15 @@
  */
 package me.cubxity.libs.org.objectweb.asm.tree;
 
-import java.util.Map;
-
-import me.cubxity.libs.org.objectweb.asm.Type;
 import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
 import me.cubxity.libs.org.objectweb.asm.Opcodes;
+import me.cubxity.libs.org.objectweb.asm.Type;
+
+import java.util.Map;
 
 /**
  * A node that represents a MULTIANEWARRAY instruction.
- * 
+ *
  * @author Eric Bruneton
  */
 public class MultiANewArrayInsnNode extends AbstractInsnNode {
@@ -54,11 +54,9 @@ public class MultiANewArrayInsnNode extends AbstractInsnNode {
 
     /**
      * Constructs a new {@link MultiANewArrayInsnNode}.
-     * 
-     * @param desc
-     *            an array type descriptor (see {@link Type}).
-     * @param dims
-     *            number of dimensions of the array to allocate.
+     *
+     * @param desc an array type descriptor (see {@link Type}).
+     * @param dims number of dimensions of the array to allocate.
      */
     public MultiANewArrayInsnNode(final String desc, final int dims) {
         super(Opcodes.MULTIANEWARRAY);

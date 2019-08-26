@@ -1,15 +1,11 @@
 package me.cubxity.libs.org.objectweb.asm.optimizer;
 
-import me.cubxity.libs.org.objectweb.asm.AnnotationVisitor;
-import me.cubxity.libs.org.objectweb.asm.Attribute;
-import me.cubxity.libs.org.objectweb.asm.FieldVisitor;
-import me.cubxity.libs.org.objectweb.asm.Opcodes;
-import me.cubxity.libs.org.objectweb.asm.TypePath;
+import me.cubxity.libs.org.objectweb.asm.*;
 
 /**
  * A {@link FieldVisitor} that collects the {@link Constant}s of the fields it
  * visits.
- * 
+ *
  * @author Eric Bruneton
  */
 public class FieldConstantsCollector extends FieldVisitor {
@@ -23,7 +19,7 @@ public class FieldConstantsCollector extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
+                                             final boolean visible) {
         cp.newUTF8(desc);
         if (visible) {
             cp.newUTF8("RuntimeVisibleAnnotations");
@@ -36,7 +32,7 @@ public class FieldConstantsCollector extends FieldVisitor {
 
     @Override
     public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
+                                                 TypePath typePath, String desc, boolean visible) {
         cp.newUTF8(desc);
         if (visible) {
             cp.newUTF8("RuntimeVisibleTypeAnnotations");

@@ -7,6 +7,7 @@
     <groupId>me.cubxity.asm</groupId>
     <artifactId>LaunchWrapperPatcher</artifactId>
     <version>1.0</version>
+    <inceptionYear>2018</inceptionYear>
     <build>
         <plugins>
             <plugin>
@@ -19,6 +20,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

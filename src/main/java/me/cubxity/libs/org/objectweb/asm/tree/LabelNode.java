@@ -29,10 +29,10 @@
  */
 package me.cubxity.libs.org.objectweb.asm.tree;
 
-import java.util.Map;
-
 import me.cubxity.libs.org.objectweb.asm.Label;
 import me.cubxity.libs.org.objectweb.asm.MethodVisitor;
+
+import java.util.Map;
 
 /**
  * An {@link AbstractInsnNode} that encapsulates a {@link Label}.
